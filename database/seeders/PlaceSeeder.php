@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 
-class WorkingPlaceSeeder extends Seeder
+class PlaceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,22 +16,22 @@ class WorkingPlaceSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('working_places')->insert([
+        DB::table('places')->insert([
                 'name' => '東京本社',
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
         ]);
-        DB::table('working_places')->insert([
+        DB::table('places')->insert([
                 'name' => '千葉オフィス',
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
         ]);
-        DB::table('working_places')->insert([
+        DB::table('places')->insert([
                 'name' => '自宅',
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
         ]);
-        DB::table('working_places')->insert([
+        DB::table('places')->insert([
                 'name' => '出張先',
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),

@@ -29,5 +29,41 @@ class UserSeeder extends Seeder
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);
+        
+        DB::table('users')->insert([
+            'department_id' => 2,
+            'style_id' => 1,
+            'place_id' => 3,
+            'name' => 'guest1太郎',
+            'email' => 'guest1@gmail.com',
+            'password' => Hash::make('password'),
+            'phone' => '080-1111-1111',
+            'created_at' => new DateTime(),
+            'updated_at' => new DateTime(),
+        ]);
+        
+        DB::table('users')->insert([
+            'department_id' => 2,
+            'style_id' => 1,
+            'place_id' => 3,
+            'name' => 'guest2太郎',
+            'email' => 'guest2@gmail.com',
+            'password' => Hash::make('password'),
+            'phone' => '080-1111-1111',
+            'created_at' => new DateTime(),
+            'updated_at' => new DateTime(),
+        ]);
+        
+        DB::table('users')->insert([
+            'department_id' => 2,
+            'style_id' => 1,
+            'place_id' => 3,
+            'name' => 'guest3太郎',
+            'email' => 'guest3@gmail.com',
+            'password' => Hash::make('password'),
+            'phone' => '080-1111-1111',
+            'created_at' => new DateTime(),
+            'updated_at' => new DateTime(),
+        ]);
     }
 }
