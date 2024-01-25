@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WorkTime extends Model
+class Time extends Model
 {
     use HasFactory;
     
     protected $fillable = [
         'user_id',
         'working_status',
-    ];
+        ];
     
     public function user()
     {

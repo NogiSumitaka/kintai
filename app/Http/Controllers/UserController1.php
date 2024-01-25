@@ -23,57 +23,22 @@ class UserController extends Controller
     /* Show manegement view */
     public function manegement(Request $request, User $user)
     {
-        $users = $user->get();
-        
-        /*勤怠状況でユーザーを分ける*/
-        $i = 0;
-        $j = 0;
-        $k = 0;
-    
-        $close_users = array();
-        $break_users = array();
-        $attend_users = array();
-    
-        foreach( $users as $user ){
-    
-            $work_time = $user->times()->orderBy('created_at', 'DESC')->first();
-            $status = $work_time->working_status;
-    
-            if ($status == "退勤") {
-                $close_users[$i] = $user;
-                $i++;
-            } elseif ($status == "休憩") {
-                $break_users[$j] = $user;
-                $j++;
-            } else {
-                $attend_users[$k] = $user;
-                $k++;
-            }
-    
-        };
-        
         return view('manegements.manegement')->with([
-            'attend_users' => $attend_users,
-            'break_users' => $break_users,
-            'close_users' => $close_users,
-            ]);
-    }
-    
-    public function show(User $user)
-    {
-        return view('manegements.employee')->with([
-            'user' => $user,
+            'user' => $request->user(),
             ]);
     }
     
     /* Show attendance report form*/
-    public function attend_form(Request $request)
+    public function attend_form(Request $request, User $user, Style $style, Place $place)
     {
         $user_id = $request->user()->id;
         $user = User::find($user_id);
         $latestWorkingStatus = $user->getLatestWorkingStatus()->working_status;
         if ($latestWorkingStatus == "退勤"){
-            return view('reports.attend');
+            return view('reports.attend')->with([
+                "styles" => $style,
+                "places" => $place,
+                ]);
         } else {
             return view('reports.allready')->with(['latestWorkingStatus' => $latestWorkingStatus]);
         }
@@ -89,7 +54,7 @@ class UserController extends Controller
             "style_id" => $request->style_id,
             "place_id" => $request->place_id,
             ]);
-        $user->times()->create([
+        $user->work_times()->create([
             "user_id" => $user_id,
             "working_status" => "出勤",
             ]);
@@ -116,7 +81,7 @@ class UserController extends Controller
     {
         $user_id = $request->user()->id;
         $user = User::find($user_id);
-        $user->times()->create([
+        $user->work_times()->create([
             "user_id" => $user_id,
             "working_status" => "休憩",
             ]);

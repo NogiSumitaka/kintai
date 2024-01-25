@@ -20,17 +20,22 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/attendance_stamp', [UserController::class, 'attend_form'])->name('attendance_stamp.attend_form');
-    Route::post('/attendance_stamp', [UserController::class, 'save_report'])->name('attendance_stamp.save_report');
-    Route::get('/breaktime',[UserController::class, 'breaktime_form'])->name('breaktime.breaktime_form');
-    Route::post('/breaktime',[UserController::class, 'start'])->name('breaktime.start');
-    Route::post('/breaktime/end',[UserController::class, 'report_end'])->name('breaktime.report_end');
-    Route::get('/closing_stamp',[UserController::class, 'closing_form'])->name('closing_stamp.closing_form');
-    Route::post('/closing_stamp',[UserController::class, 'close'])->name('closing_stamp.close');
+});
+
+Route::controller(UserController::class)->middleware(['auth'])->group(function(){
+    Route::get('/dashboard', 'dashboard')->name('dashboard');
+    Route::get('/manegement', 'manegement')->name('manegement');
+    Route::get('/manegement/employees/{user}', 'show');
+    Route::get('/attendance_stamp', 'attend_form')->name('attendance_stamp.attend_form');
+    Route::post('/attendance_stamp', 'save_report')->name('attendance_stamp.save_report');
+    Route::get('/breaktime', 'breaktime_form')->name('breaktime.breaktime_form');
+    Route::post('/breaktime', 'start')->name('breaktime.start');
+    Route::post('/breaktime/end', 'report_end')->name('breaktime.report_end');
+    Route::get('/closing_stamp', 'closing_form')->name('closing_stamp.closing_form');
+    Route::post('/closing_stamp', 'close')->name('closing_stamp.close');
 });
 
 require __DIR__.'/auth.php';

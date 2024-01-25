@@ -16,11 +16,10 @@ class DatabaseSeeder extends Seeder
     {
        $this->call([
            DepartmentSeeder::class,
-           WorkingPlaceSeeder::class,
-           WorkingStyleSeeder::class,
+           PlaceSeeder::class,
+           StyleSeeder::class,
            UserSeeder::class,
-           WorkTimeSeeder::class,
-           
+           TimeSeeder::class,
        ]);
     }
 }
