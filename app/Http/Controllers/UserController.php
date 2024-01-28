@@ -10,19 +10,19 @@ use App\Models\Place;
 class UserController extends Controller
 {
     /* Show dashboard */
-    public function dashboard(Request $request)
+    public function dashboard (Request $request)
     {
         $user_id = $request->user()->id;
         $user = User::find($user_id);
-        $latestWorkingStatus = $user->getLatestWorkingStatus();
+        $latest_working_status = $user->getLatestWorkingStatus();
         return view('dashboard')->with([
             'user' => $user,
-            'latestWorkingStatus' => $latestWorkingStatus,
+            'latest_working_status' => $latest_working_status,
             ]);
     }
     
     /* Show manegement view */
-    public function manegement(Request $request, User $user)
+    public function manegement (Request $request, User $user)
     {
         $users = $user->get();
         
@@ -32,28 +32,37 @@ class UserController extends Controller
         $j = 0;
         $k = 0;
     
-        $close_users = array();
-        $break_users = array();
-        $attend_users = array();
-        $new_users = array(); /* 新規登録者でまだ勤怠時間データがないuser*/
+        $close_users = array();   /* 退勤中のuser*/
+        $break_users = array();   /* 休憩中のuser*/
+        $attend_users = array();  /* 勤務中のuser*/
+        $new_users = array();     /* 新規登録者でまだ勤怠時間データがないuser*/
         
-        foreach( $users as $user ){
-            if(empty($user->getLatestWorkingStatus())){
+        foreach( $users as $user ) {
+            if( empty( $user->getLatestWorkingStatus() ) ) {
+                
                 $new_users[$n] = $user;
                 $n++;
+                
             } else {
+                
                 $work_time = $user->times()->orderBy('created_at', 'DESC')->first();
                 $status = $work_time->working_status;
         
-                if ($status == "退勤") {
+                if ( $status == "退勤" ) {
+                    
                     $close_users[$i] = $user;
                     $i++;
-                } elseif ($status == "休憩") {
+                    
+                } elseif ( $status == "休憩" ) {
+                    
                     $break_users[$j] = $user;
                     $j++;
+                    
                 } else {
+                    
                     $attend_users[$k] = $user;
                     $k++;
+                    
                 }
             }
         };
@@ -66,7 +75,8 @@ class UserController extends Controller
             ]);
     }
     
-    public function show(User $user)
+    /* Show employees infomation */
+    public function show (User $user)
     {
         return view('manegements.employee')->with([
             'user' => $user,
@@ -74,32 +84,42 @@ class UserController extends Controller
     }
     
     /* Show attendance report form*/
-    public function attend_form(Request $request)
+    public function attendForm (Request $request)
     {
         $user_id = $request->user()->id;
         $user = User::find($user_id);
-        $latestWorkingStatus = $user->getLatestWorkingStatus();
-        if (empty($latestWorkingStatus)){
+        $latest_working_status = $user->getLatestWorkingStatus();
+        if ( empty( $latest_working_status ) ) {
+            
             return view('reports.attend');
+            
         } else {
-            $workingStatus = $user->getLatestWorkingStatus()->working_status;
-            if ($workingStatus == "退勤"){
+            
+            $working_status = $user->getLatestWorkingStatus()->working_status;
+            
+            if ( $working_status == "退勤" ) {
+                
                 return view('reports.attend');
+                
             } else {
-                return view('reports.allready')->with(['latestWorkingStatus' => $workingStatus]);
+                
+                return view('reports.allready')->with(['latest_working_status' => $working_status]);
+            
             }
         }
     }
     
     /* Save attendance report */
-    public function save_report(Request $request)
+    public function saveReport (Request $request)
     {
         $user_id = $request->user()->id;
         $user = User::find($user_id);
+        
         $user->update([
             "style_id" => $request->style_id,
             "place_id" => $request->place_id,
             ]);
+        
         $user->times()->create([
             "user_id" => $user_id,
             "working_status" => "出勤",
@@ -108,26 +128,38 @@ class UserController extends Controller
         return redirect(route('dashboard'));
     }
     
-    public function breaktime_form(Request $request)
+    /* Show breaktime report form*/
+    public function breaktimeForm (Request $request)
     {
         $user_id = $request->user()->id;
         $user = User::find($user_id);
-        $latestWorkingStatus = $user->getLatestWorkingStatus();
-        if (empty($latestWorkingStatus)){
+        $latest_working_status = $user->getLatestWorkingStatus();
+        if ( empty( $latest_working_status ) ) {
+            
             return view('reports.error');
+            
         } else {
-            $workingStatus = $user->getLatestWorkingStatus()->working_status;
-            if ($workingStatus == "出勤"){
+            
+            $working_status = $user->getLatestWorkingStatus()->working_status;
+            
+            if ( $working_status == "出勤" ) {
+                
                 return view('reports.breaktime');
-            } elseif ($workingStatus == "休憩"){
+                
+            } elseif ($working_status == "休憩"){
+                
                 return view('reports.breaktime_start');
+                
             } else {
-                return view('reports.allready')->with(['latestWorkingStatus' => $workingStatus]);
+                
+                return view('reports.allready')->with(['latest_working_status' => $working_status]);
+            
             }
         }
     }
     
-    public function start(Request $request)
+    /* Save breaktime report and show breaktime_start view*/
+    public function start (Request $request)
     {
         $user_id = $request->user()->id;
         $user = User::find($user_id);
@@ -139,7 +171,8 @@ class UserController extends Controller
         return view('reports.breaktime_start');
     }
     
-    public function report_end(Request $request)
+    /* Save breaktime end report*/
+    public function reportEnd (Request $request)
     {
         $user_id = $request->user()->id;
         $user = User::find($user_id);
@@ -151,26 +184,35 @@ class UserController extends Controller
         return redirect(route('dashboard'));
     }
     
-    /* Show attendance report form*/
-    public function closing_form(Request $request)
+    /* Show close report form*/
+    public function closingForm (Request $request)
     {
         $user_id = $request->user()->id;
         $user = User::find($user_id);
-        $latestWorkingStatus = $user->getLatestWorkingStatus();
-        if(empty($latestWorkingStatus)){
+        $latest_working_status = $user->getLatestWorkingStatus();
+        
+        if( empty( $latest_working_status ) ) {
+            
             return view('reports.error');
+            
         } else {
-            $workingStatus = $user->getLatestWorkingStatus()->working_status;
-            if ($workingStatus != "退勤"){
+            
+            $working_status = $user->getLatestWorkingStatus()->working_status;
+            
+            if ( $working_status != "退勤" ) {
+                
                 return view('reports.close');
+                
             } else {
-                return view('reports.allready')->with(['latestWorkingStatus' => $workingStatus]);
+                
+                return view('reports.allready')->with(['latest_working_status' => $working_status]);
+                
             }
         }
     }
     
-    /* Save attendance report */
-    public function close(Request $request)
+    /* Save close report */
+    public function close (Request $request)
     {
         $user_id = $request->user()->id;
         $user = User::find($user_id);
