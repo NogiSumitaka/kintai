@@ -26,6 +26,7 @@ class UserSeeder extends Seeder
             'email' => '0gg325311.15f5z@gmail.com',
             'password' => Hash::make('password'),
             'phone' => '080-1111-1111',
+            'administrator' => true,
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);
@@ -38,6 +39,7 @@ class UserSeeder extends Seeder
             'email' => 'guest1@gmail.com',
             'password' => Hash::make('password'),
             'phone' => '080-1111-1111',
+            'administrator' => false,
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);
@@ -50,6 +52,7 @@ class UserSeeder extends Seeder
             'email' => 'guest2@gmail.com',
             'password' => Hash::make('password'),
             'phone' => '080-1111-1111',
+            'administrator' => false,
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);
@@ -62,6 +65,7 @@ class UserSeeder extends Seeder
             'email' => 'guest3@gmail.com',
             'password' => Hash::make('password'),
             'phone' => '080-1111-1111',
+            'administrator' => false,
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);
