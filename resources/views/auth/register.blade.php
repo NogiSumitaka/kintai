@@ -15,6 +15,34 @@
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
+        
+        <!-- Phone number -->
+        <div class="mt-4">
+            <x-input-label for="phone" :value="__('Phone number')" />
+            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autocomplete="phonenumber" />
+            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+        </div>
+        
+        <!-- Department -->
+        <div class="mt-4">
+            <x-input-label for="department" :value="__('Department')" />
+            <div class="flex">
+            @foreach ($departments as $department)
+                <x-text-input id="department" class="block" type="radio" name="department_id" value="{{ $department->id }}" required class="mr-1"/>{{ $department->name }}
+            @endforeach
+            </div>
+            <x-input-error :messages="$errors->get('department')" class="mt-2" />
+        </div>
+        
+        <!-- Attendance manager -->
+        <div class="mt-4">
+            <x-input-label for="administrator" :value="__('Attendance maneger?')" />
+            <div class="flex">
+                <x-text-input id="administrator" class="block" type="radio" name="administrator" value=1 required class="mr-1"/>Yes
+                <x-text-input id="administrator" class="block" type="radio" name="administrator" value=0 required />No
+            </div>
+            <x-input-error :messages="$errors->get('administrator')" class="mt-2" />
+        </div>
 
         <!-- Password -->
         <div class="mt-4">
