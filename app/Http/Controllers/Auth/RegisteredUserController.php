@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Department;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -18,9 +19,9 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create( Department $department): View
     {
-        return view('auth.register');
+        return view('auth.register')->with(["departments" => $department->get()]);
     }
 
     /**
@@ -39,9 +40,14 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
+            'department_id' => $request->department_id,
+            'administrator' => $request->administrator,
+            'style_id' => 1,
+            'place_id' => 1,
         ]);
-
+            
         event(new Registered($user));
 
         Auth::login($user);

@@ -72,5 +72,17 @@
             <div class="flex-1 text-center"><a href="/manegement/employees/{{ $user->id }}" class="px-4 py-1 rounded-full bg-sky-300 hover:bg-sky-600 text-white">詳細</a></div>
         </div>
     @endforeach
+    
+    @isset ($new_users)
+        @foreach ( $new_users as $user )
+            <div class="flex justify-center divide-x divide-gray-800 bg-white p-2 mt-2 rounded-lg w-full">
+                <div class="flex-1 text-center">{{ $user->name }}</div>
+                <div class="flex-1 text-center">未登録</div>
+                <div class="flex-1 text-center">{{ $user->style->name }}</div>
+                <div class="flex-1 text-center">{{ $user->place->name }}</div>
+                <div class="flex-1 text-center"><a href="/manegement/employees/{{ $user->id }}" class="px-4 py-1 rounded-full bg-sky-300 hover:bg-sky-600 text-white">詳細</a></div>
+            </div>
+        @endforeach
+    @endisset
     </div>
 </x-app-layout>
