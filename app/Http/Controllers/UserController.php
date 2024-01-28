@@ -16,6 +16,7 @@ class UserController extends Controller
         $user = User::find($user_id);
         $latestWorkingStatus = $user->getLatestWorkingStatus();
         return view('dashboard')->with([
+            'user' => $user,
             'latestWorkingStatus' => $latestWorkingStatus,
             ]);
     }

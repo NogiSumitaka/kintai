@@ -15,9 +15,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('勤怠報告') }}
                     </x-nav-link>
+                @if ( Auth::user()->administrator == true)
                     <x-nav-link :href="route('manegement')" :active="request()->routeIs('manegement')">
                         {{ __('管理画面') }}
                     </x-nav-link>
+                @endif
                 </div>
             </div>
 
