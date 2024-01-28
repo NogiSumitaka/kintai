@@ -5,8 +5,8 @@
             <h2>基本情報</h2>
             <p>所属　： {{ $user->department->name }}</p>
             <p>氏名　： {{ $user->name }}</p>
-            <p>email： {{ $user->email }}</p>
-            <p>電話番号: {{ $user->phone }}</p>
+            <p>email　： {{ $user->email }}</p>
+            <p>電話番号： {{ $user->phone }}</p>
         </div>
     </div>
 </x-app-layout>

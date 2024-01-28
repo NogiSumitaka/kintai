@@ -69,7 +69,6 @@ class User extends Authenticatable
     
     public function getLatestWorkingStatus()
     {
-        $latestWorkingStatus = $this->times()->orderBy('created_at', 'DESC')->first();
-        return $latestWorkingStatus;
+        return $this->times()->orderBy('created_at', 'DESC')->first();
     }
 }

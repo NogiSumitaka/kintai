@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>勤怠報告アプリ</title>
+        <title>勤怠管理アプリ</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -25,6 +25,5 @@
                 <p class="underline my-3">新規登録は<a href="{{ route('register') }}" class="text-indigo-400 hover:text-indigo-800">こちら</a></p>
             </div>
         </div>
-        
     </body>
 </html>
